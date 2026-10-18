@@ -1,0 +1,11 @@
+<figure class="photo {{ extra_class }}">
+    <div class="photo-frame">
+        <img src="{{ photo.src }}" srcset="{{ photo.srcset }}" sizes="{{ sizes|default:'(max-width: 900px) 100vw, 900px' }}"
+             alt="{{ photo.alt }}" loading="{{ loading|default:'lazy' }}" decoding="async"
+             onerror="this.parentNode.classList.add('is-missing')">
+    </div>
+    <figcaption>
+        {{ photo.caption }}
+        <span class="credit">Photo: <a href="{{ photo.credit_url }}" target="_blank" rel="noopener">{{ photo.photographer }}</a> / Unsplash</span>
+    </figcaption>
+</figure>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %}{{ title }} · {% endif %}Jamaica</title>
+    <meta name="description" content="Jamaican culture and heritage: history, national heroes, music, food, language and festivals.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        :root {
+            --green: #009B3A;
+            --green-dark: #00702A;
+            --gold: #FED100;
+            --black: #111;
+            --ink: #1d1d1b;
+            --muted: #5b5b55;
+            --paper: #fbfaf5;
+            --card: #ffffff;
+            --line: #e6e2d3;
+            --display: "Fraunces", Georgia, "Times New Roman", serif;
+            --body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; }
+        body { background: var(--paper); color: var(--ink); line-height: 1.65; font-family: var(--body); font-size: 17px; }
+        h1, h2, h3 { font-family: var(--display); letter-spacing: -.01em; }
+        a { color: var(--green-dark); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        img { max-width: 100%; }
+
+        /* Navigation */
+        .site-nav { background: var(--black); border-bottom: 5px solid var(--gold); position: relative; z-index: 2; }
+        .site-nav .inner {
+            max-width: 1180px; margin: 0 auto; padding: 0 16px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; min-height: 60px;
+        }
+        .site-nav .brand { color: var(--gold); font-family: var(--display); font-weight: 700; font-size: 1.4rem; margin-right: auto; }
+        .site-nav .links { display: flex; flex-wrap: wrap; gap: 2px 16px;
+                           /* undo Materialize's default <nav> styling */
+                           background: none; width: auto; height: auto; line-height: inherit; box-shadow: none; color: inherit; }
+        .site-nav .links a { color: #f2f2f2; padding: 6px 0; border-bottom: 2px solid transparent; font-size: .95rem; font-weight: 500; }
+        .site-nav a:hover { text-decoration: none; }
+        .site-nav .links a:hover, .site-nav .links a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+        .container { max-width: 1180px; width: auto; margin: 0 auto; padding: 32px 16px 56px; }
+
+        /* Hero banners */
+        .hero { position: relative; overflow: hidden; color: #fff; background: linear-gradient(135deg, var(--green-dark), #0b3b1f 60%, var(--black)); }
+        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,.78) 100%); }
+        .hero-inner { position: relative; max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+        .hero-home { min-height: min(78vh, 720px); display: flex; align-items: flex-end; }
+        .hero-home .hero-inner { width: 100%; padding-bottom: 72px; padding-top: 120px; }
+        .hero-topic { min-height: 420px; display: flex; align-items: flex-end; }
+        .hero-topic .hero-inner { width: 100%; padding-top: 110px; padding-bottom: 48px; }
+        .hero-topic.no-image { min-height: 260px; }
+        .hero h1 { color: #fff; font-weight: 700; margin: 0 0 12px; line-height: 1.05; font-size: clamp(2.4rem, 6vw, 4.6rem);
+                   text-shadow: 0 2px 24px rgba(0,0,0,.35); }
+        .hero-topic h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); }
+        .hero-lead { font-size: clamp(1.05rem, 1.8vw, 1.3rem); max-width: 60ch; margin: 0; color: rgba(255,255,255,.92); }
+        .hero-flag { width: 92px; margin-bottom: 18px; }
+        .hero .eyebrow { color: var(--gold); }
+        .hero .crumbs { color: rgba(255,255,255,.8); }
+        .hero .crumbs a { color: var(--gold); }
+        .hero-cta { display: inline-block; margin-top: 26px; background: var(--gold); color: var(--black); font-weight: 700;
+                    padding: 13px 24px; border-radius: 999px; transition: transform .15s; }
+        .hero-cta:hover { text-decoration: none; transform: translateY(-2px); }
+        .hero-credit { position: absolute; right: 16px; bottom: 10px; margin: 0; font-size: .75rem; color: rgba(255,255,255,.75);
+                       max-width: calc(100% - 32px); text-align: right; }
+        .hero-credit a { color: rgba(255,255,255,.9); text-decoration: underline; }
+
+        .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; color: var(--green-dark); font-weight: 700; margin: 0 0 8px; }
+        .flag { width: 100%; height: auto; display: block; border-radius: 4px; box-shadow: 0 2px 12px rgba(0,0,0,.25); }
+        .lead { font-size: 1.2rem; color: var(--muted); max-width: 70ch; margin: 0 0 8px; }
+        .section-title { font-size: 2rem; font-weight: 700; margin: 8px 0 18px; }
+
+        /* Topic cards */
+        .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+        .topic-card { display: flex; flex-direction: column; background: var(--card); color: var(--ink);
+                      border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+                      transition: transform .2s, box-shadow .2s; }
+        .topic-card:hover { text-decoration: none; transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,.10); }
+        .topic-card-img { aspect-ratio: 16 / 10; background: linear-gradient(135deg, var(--green), var(--green-dark)); overflow: hidden;
+                          border-bottom: 5px solid var(--green); }
+        .topic-card:nth-child(3n+2) .topic-card-img { border-bottom-color: var(--gold); }
+        .topic-card:nth-child(3n+3) .topic-card-img { border-bottom-color: var(--black); }
+        .topic-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+        .topic-card:hover .topic-card-img img { transform: scale(1.05); }
+        .topic-card-body { padding: 18px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+        .topic-card h3 { font-size: 1.45rem; margin: 0 0 8px; font-weight: 700; }
+        .topic-card p { color: var(--muted); margin: 0 0 14px; flex: 1; font-size: .98rem; }
+        .topic-card .more { color: var(--green-dark); font-weight: 700; }
+
+        /* Featured video on home */
+        .feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 36px; align-items: center;
+                   background: var(--black); color: #eee; border-radius: 18px; padding: 36px; margin: 56px 0; }
+        .feature h2 { color: #fff; font-size: 2.2rem; margin: 0 0 12px; line-height: 1.15; }
+        .feature .eyebrow { color: var(--gold); }
+        .feature a { color: var(--gold); font-weight: 600; }
+        .feature .video { margin: 0; }
+        .feature .video figcaption { color: #bbb; }
+
+        /* Photos */
+        .photo, .video { margin: 0; }
+        .photo-frame { border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 2;
+                       background: linear-gradient(135deg, var(--green), var(--green-dark) 60%, var(--black)); }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .photo-frame.is-missing img { display: none; }
+        figcaption { font-size: .88rem; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+        figcaption .credit { display: block; font-size: .78rem; opacity: .85; margin-top: 2px; }
+        figcaption .credit a { color: inherit; text-decoration: underline; }
+        .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+
+        /* Videos (click to load) */
+        .video-frame { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0;
+                       border-radius: 12px; overflow: hidden; background: #000; cursor: pointer; }
+        .video-frame:focus { background: #000; }
+        .video-frame:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+        .video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .9; transition: opacity .2s, transform .4s; }
+        .video-frame:hover img { opacity: 1; transform: scale(1.03); }
+        .video-frame .play { position: absolute; inset: 0; display: grid; place-items: center; }
+        .video-frame .play svg { width: 76px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); transition: transform .15s; }
+        .video-frame:hover .play svg { transform: scale(1.1); }
+        .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        .video figcaption strong { color: inherit; font-weight: 600; }
+        .feature .video figcaption strong { color: #fff; }
+
+        /* Topic pages */
+        .crumbs { font-size: .9rem; margin: 0 0 8px; }
+        .topic-section { margin-top: 52px; }
+        .topic-section h2 { font-size: 2rem; font-weight: 700; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+        .topic-section > p { max-width: 75ch; }
+        .media-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; margin: 4px 0 20px; max-width: 900px; }
+        .media-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
+        .flag-wrap { max-width: 360px; margin: 8px 0 16px; }
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 14px; }
+        .item { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--green); border-radius: 10px; padding: 14px 16px; }
+        .item h4 { font-family: var(--body); font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; line-height: 1.3; }
+        .item p { margin: 0; color: var(--muted); font-size: .96rem; }
+        .pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 56px; padding-top: 20px; border-top: 2px solid var(--line); }
+        .pager a { font-family: var(--display); font-weight: 700; font-size: 1.25rem; }
+        .pager a.next { text-align: right; }
+        .pager small { display: block; font-family: var(--body); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+        .site-footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 48px; padding-top: 16px;
+                       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+        @media (max-width: 800px) {
+            .feature { grid-template-columns: minmax(0, 1fr); padding: 24px; gap: 22px; }
+            .gallery, .media-row.two { grid-template-columns: minmax(0, 1fr); }
+            .hero-home { min-height: 560px; }
+            .hero-topic { min-height: 340px; }
+            .hero-credit { position: relative; right: auto; bottom: auto; text-align: left; padding: 0 16px 10px; max-width: none; }
+            .hero-home, .hero-topic { flex-direction: column; justify-content: flex-end; align-items: stretch; }
+            .hero-home .hero-inner { padding-bottom: 28px; }
+            .hero-topic .hero-inner { padding-bottom: 24px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    {% with path=request.path %}
+    <header class="site-nav">
+        <div class="inner">
+            <a class="brand" href="{% url 'heritage:index' %}">Jamaica</a>
+            <nav class="links" aria-label="Main">
+                <a href="{% url 'heritage:index' %}" {% if path == '/heritage/' %}class="active"{% endif %}>Home</a>
+                {% for t in nav_topics %}
+                {% url 'heritage:topic' t.slug as topic_url %}
+                <a href="{{ topic_url }}" {% if path == topic_url %}class="active"{% endif %}>{{ t.nav }}</a>
+                {% endfor %}
+                {% url 'posts:index' as posts_url %}
+                <a href="{{ posts_url }}" {% if posts_url in path %}class="active"{% endif %}>Posts</a>
+            </nav>
+        </div>
+    </header>
+    {% endwith %}
+
+    {% block hero %}{% endblock %}
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+
+        <footer class="site-footer">
+            <span>Photos via Unsplash, credited on each image. Videos from their official publishers on YouTube.</span>
+            <a href="{% url 'admin:index' %}">Admin Login</a>
+        </footer>
+    </main>
+
+    <script>
+        // Click-to-play videos: only load YouTube when a visitor actually presses play.
+        document.addEventListener('click', function (event) {
+            var button = event.target.closest('.video-frame[data-video-id]');
+            if (!button) return;
+            var iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube-nocookie.com/embed/' + button.dataset.videoId + '?autoplay=1&rel=0';
+            iframe.title = button.getAttribute('aria-label').replace('Play video: ', '');
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.referrerPolicy = 'strict-origin-when-cross-origin';  // YouTube needs this (avoids Error 153)
+            var player = document.createElement('div');
+            player.className = 'video-frame is-playing';
+            player.appendChild(iframe);
+            button.replaceWith(player);
+        });
+    </script>
+</body>
+</html>

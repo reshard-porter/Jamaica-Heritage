@@ -1,0 +1,64 @@
+{% extends 'posts/layout.html' %}
+
+{% block hero %}
+<section class="hero hero-topic{% if not page.hero %} no-image{% endif %}">
+    {% if page.hero %}
+    <img class="hero-img" src="{{ page.hero.src }}" srcset="{{ page.hero.srcset }}" sizes="100vw"
+         alt="{{ page.hero.alt }}" fetchpriority="high" onerror="this.remove()">
+    {% endif %}
+    <div class="hero-shade"></div>
+    <div class="hero-inner">
+        <p class="crumbs"><a href="{% url 'heritage:index' %}">Heritage</a> / {{ page.title }}</p>
+        <h1>{{ page.title }}</h1>
+        <p class="hero-lead">{{ page.tagline }}</p>
+    </div>
+    {% if page.hero %}
+    <p class="hero-credit">{{ page.hero.caption }} Photo: <a href="{{ page.hero.credit_url }}" target="_blank" rel="noopener">{{ page.hero.photographer }}</a> / Unsplash</p>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block content %}
+<p class="lead">{{ page.intro }}</p>
+
+{% for section in page.sections %}
+<section class="topic-section">
+    <h2>{{ section.heading }}</h2>
+
+    {% if section.flag %}
+    <div class="flag-wrap">{% include 'heritage/_flag.html' %}</div>
+    {% endif %}
+
+    {% if section.photo or section.video %}
+    <div class="media-row{% if section.photo and section.video %} two{% endif %}">
+        {% if section.photo %}{% include 'heritage/_photo.html' with photo=section.photo %}{% endif %}
+        {% if section.video %}{% include 'heritage/_video.html' with video=section.video %}{% endif %}
+    </div>
+    {% endif %}
+
+    {% for paragraph in section.paragraphs %}
+    <p>{{ paragraph }}</p>
+    {% endfor %}
+
+    {% if section.entries %}
+    <div class="item-grid">
+        {% for item in section.entries %}
+        <div class="item">
+            <h4>{{ item.name }}</h4>
+            <p>{{ item.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endfor %}
+
+<div class="pager">
+    {% if previous_page %}
+    <a href="{% url 'heritage:topic' previous_page.slug %}"><small>Previous</small>&larr; {{ previous_page.title }}</a>
+    {% else %}<span></span>{% endif %}
+    {% if next_page %}
+    <a class="next" href="{% url 'heritage:topic' next_page.slug %}"><small>Next</small>{{ next_page.title }} &rarr;</a>
+    {% endif %}
+</div>
+{% endblock %}

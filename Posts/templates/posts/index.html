@@ -1,0 +1,14 @@
+{% extends 'posts/layout.html' %}
+
+{% block content %}
+<h2 class="center-align"><strong>{{ title }}</strong></h2>
+{% if posts %}
+<ul class="collection">
+    {% for post in posts %}
+    <li class="collection-item"><a href="{% url 'posts:details' post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="center-align">No posts yet. Add some from the admin.</p>
+{% endif %}
+{% endblock %}

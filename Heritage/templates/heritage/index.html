@@ -1,0 +1,62 @@
+{% extends 'posts/layout.html' %}
+
+{% block hero %}
+<section class="hero hero-home">
+    <img class="hero-img" src="{{ home.hero.src }}" srcset="{{ home.hero.srcset }}" sizes="100vw"
+         alt="{{ home.hero.alt }}" fetchpriority="high" onerror="this.remove()">
+    <div class="hero-shade"></div>
+    <div class="hero-inner">
+        <div class="hero-flag">{% include 'heritage/_flag.html' %}</div>
+        <p class="eyebrow">Out of Many, One People</p>
+        <h1>Jamaican Culture &amp; Heritage</h1>
+        <p class="hero-lead">
+            A small island with a huge cultural footprint. Explore the history, heroes,
+            music, food, language and traditions that make Jamaica, Jamaica.
+        </p>
+        <a class="hero-cta" href="{% url 'heritage:topic' topics.0.slug %}">Start exploring &rarr;</a>
+    </div>
+    <p class="hero-credit">{{ home.hero.caption }} Photo: <a href="{{ home.hero.credit_url }}" target="_blank" rel="noopener">{{ home.hero.photographer }}</a> / Unsplash</p>
+</section>
+{% endblock %}
+
+{% block content %}
+<h2 class="section-title">Explore</h2>
+<div class="topic-grid">
+    {% for topic in topics %}
+    <a class="topic-card" href="{% url 'heritage:topic' topic.slug %}">
+        {% if topic.hero %}
+        <div class="topic-card-img">
+            <img src="{{ topic.hero.src }}" srcset="{{ topic.hero.srcset }}" sizes="(max-width: 700px) 100vw, 360px"
+                 alt="" loading="lazy" decoding="async" onerror="this.remove()">
+        </div>
+        {% endif %}
+        <div class="topic-card-body">
+            <h3>{{ topic.title }}</h3>
+            <p>{{ topic.summary }}</p>
+            <span class="more">Explore &rarr;</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<section class="feature">
+    <div class="feature-text">
+        <p class="eyebrow">World heritage</p>
+        <h2>Reggae belongs to the world</h2>
+        <p>
+            In 2018 UNESCO added reggae music of Jamaica to its list of the Intangible
+            Cultural Heritage of Humanity. Watch UNESCO's film about the music and the
+            people who made it.
+        </p>
+        <a href="{% url 'heritage:topic' 'music' %}">More on Jamaican music &rarr;</a>
+    </div>
+    {% include 'heritage/_video.html' with video=home.video %}
+</section>
+
+<h2 class="section-title">Island views</h2>
+<div class="gallery">
+    {% for photo in home.gallery %}
+    {% include 'heritage/_photo.html' with photo=photo sizes='(max-width: 700px) 100vw, 540px' %}
+    {% endfor %}
+</div>
+{% endblock %}
